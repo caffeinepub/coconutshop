@@ -1,0 +1,109 @@
+// Version: 1.0.0
+type CartItem__1044444615 =
+  {productId : ProductId__593108714; quantity : Nat};
+type Cart__949090555 =
+  {
+    items : [CartItem__1044444615];
+    updatedAt : Timestamp__301639476;
+    userId : UserId__445290797
+  };
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type ExternalBlob__246066408 = Blob;
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type Map__158565046<K, V> = Map__297112838<K, V>;
+type Map__297112838<K, V> =
+  {var root : Node__46230540<K, V>; var size : Nat__490723111};
+type Map__605269027<K, V> = Map__158565046<K, V>;
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type OrderId__197865225 = Text;
+type OrderId__521176343 = OrderId__197865225;
+type OrderItem__241319351 =
+  {
+    priceInCents : Nat;
+    productId : ProductId__903190681;
+    productName : Text;
+    quantity : Nat
+  };
+type OrderStatus__272730104 =
+  {#cancelled; #delivered; #paid; #pending; #processing; #shipped};
+type Order__141779993 =
+  {
+    createdAt : Timestamp__301639476;
+    id : OrderId__521176343;
+    items : [OrderItem__241319351];
+    shippingAddress : ?ShippingAddress__910423011;
+    status : OrderStatus__272730104;
+    stripeSessionId : Text;
+    totalInCents : Nat;
+    updatedAt : Timestamp__301639476;
+    userId : UserId__41638867
+  };
+type ProductId__160010635 = Text;
+type ProductId__442338476 = ProductId__160010635;
+type ProductId__593108714 = ProductId__160010635;
+type ProductId__903190681 = ProductId__160010635;
+type Product__750902660 =
+  {
+    category : Text;
+    createdAt : Timestamp__301639476;
+    description : Text;
+    id : ProductId__442338476;
+    imageBlob : ExternalBlob__246066408;
+    name : Text;
+    priceInCents : Nat;
+    stock : Nat
+  };
+type ShippingAddress__910423011 =
+  {
+    addressLine1 : Text;
+    addressLine2 : Text;
+    city : Text;
+    country : Text;
+    fullName : Text;
+    postalCode : Text;
+    state : Text
+  };
+type StripeConfiguration__96897619 =
+  {allowedCountries : [Text]; secretKey : Text};
+type Timestamp__301639476 = Int;
+type UserId__158757552 = Principal;
+type UserId__41638867 = UserId__158757552;
+type UserId__445290797 = UserId__158757552;
+type UserProfile__190304746 = {email : Text; name : Text};
+type UserRole__1054455867 = {#admin; #guest; #user};
+actor {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__605269027<Principal, UserRole__1054455867>
+    };
+  stable carts :
+    {
+      var root : Node__46230540<UserId__158757552, Cart__949090555>;
+      var size : Nat__490723111
+    };
+  stable orderCounter : {var value : Nat};
+  stable orders :
+    {
+      var root : Node__46230540<OrderId__197865225, Order__141779993>;
+      var size : Nat__490723111
+    };
+  stable productCounter : {var value : Nat};
+  stable products :
+    {
+      var root : Node__46230540<ProductId__160010635, Product__750902660>;
+      var size : Nat__490723111
+    };
+  stable profiles :
+    {
+      var root : Node__46230540<UserId__158757552, UserProfile__190304746>;
+      var size : Nat__490723111
+    };
+  stable var stripeConfigValue : ?StripeConfiguration__96897619
+};

@@ -1,0 +1,107 @@
+import type { backendInterface } from "../backend";
+import { OrderStatus, UserRole } from "../backend";
+
+const sampleProducts = [
+  {
+    id: "prod-1",
+    name: "Fresh Tender Coconut",
+    description: "Freshly harvested tender coconut, rich in natural electrolytes and sweet coconut water. Perfect for refreshment.",
+    category: "Tender Coconut",
+    priceInCents: BigInt(299),
+    stock: BigInt(50),
+    createdAt: BigInt(Date.now() * 1_000_000),
+    imageBlob: {
+      getBytes: async () => new Uint8Array(),
+      getDirectURL: () => "https://images.unsplash.com/photo-1596306499317-8490232a0e03?w=400&h=400&fit=crop",
+      withUploadProgress: function() { return this; },
+    } as any,
+  },
+  {
+    id: "prod-2",
+    name: "King Coconut",
+    description: "Premium king coconut with golden shell and exceptionally sweet water. A tropical delicacy.",
+    category: "King Coconut",
+    priceInCents: BigInt(499),
+    stock: BigInt(30),
+    createdAt: BigInt(Date.now() * 1_000_000),
+    imageBlob: {
+      getBytes: async () => new Uint8Array(),
+      getDirectURL: () => "https://images.unsplash.com/photo-1582979512210-99b6a53386f9?w=400&h=400&fit=crop",
+      withUploadProgress: function() { return this; },
+    } as any,
+  },
+  {
+    id: "prod-3",
+    name: "Coconut Bundle (6 pack)",
+    description: "A bundle of 6 fresh tender coconuts, perfect for the whole family or a small gathering.",
+    category: "Bundle",
+    priceInCents: BigInt(1599),
+    stock: BigInt(20),
+    createdAt: BigInt(Date.now() * 1_000_000),
+    imageBlob: {
+      getBytes: async () => new Uint8Array(),
+      getDirectURL: () => "https://images.unsplash.com/photo-1621704764867-0b1bbca37975?w=400&h=400&fit=crop",
+      withUploadProgress: function() { return this; },
+    } as any,
+  },
+  {
+    id: "prod-4",
+    name: "Young Green Coconut",
+    description: "Young green coconut with soft jelly flesh and refreshing water. Direct from the farm.",
+    category: "Young Coconut",
+    priceInCents: BigInt(349),
+    stock: BigInt(45),
+    createdAt: BigInt(Date.now() * 1_000_000),
+    imageBlob: {
+      getBytes: async () => new Uint8Array(),
+      getDirectURL: () => "https://images.unsplash.com/photo-1559181567-c3190ca9be46?w=400&h=400&fit=crop",
+      withUploadProgress: function() { return this; },
+    } as any,
+  },
+];
+
+const sampleCart = {
+  userId: { toText: () => "mock-user", compareTo: () => 0 as any, isAnonymous: () => false, toUint8Array: () => new Uint8Array() } as any,
+  updatedAt: BigInt(Date.now() * 1_000_000),
+  items: [
+    { productId: "prod-1", quantity: BigInt(2) },
+  ],
+};
+
+export const mockBackend: backendInterface = {
+  _immutableObjectStorageBlobsAreLive: async () => [],
+  _immutableObjectStorageBlobsToDelete: async () => [],
+  _immutableObjectStorageConfirmBlobDeletion: async () => undefined,
+  _immutableObjectStorageCreateCertificate: async () => ({ certificate: new Uint8Array(), url: "" } as any),
+  _immutableObjectStorageRefillCashier: async () => ({ cycles: BigInt(0) } as any),
+  _immutableObjectStorageUpdateGatewayPrincipals: async () => undefined,
+  _initializeAccessControl: async () => undefined,
+  addProduct: async (input) => ({ ...input, id: "new-prod", createdAt: BigInt(Date.now() * 1_000_000) }),
+  addToCart: async () => undefined,
+  assignCallerUserRole: async () => undefined,
+  clearCart: async () => undefined,
+  confirmOrder: async () => null,
+  createCheckoutSession: async () => "mock-session-id",
+  deleteProduct: async () => true,
+  getCallerUserProfile: async () => null,
+  getCallerUserRole: async () => UserRole.user,
+  getCart: async () => sampleCart,
+  getMyOrders: async () => [],
+  getMyProfile: async () => ({ name: "Demo User", email: "demo@example.com" }),
+  getOrder: async () => null,
+  getProduct: async (id) => sampleProducts.find(p => p.id === id) ?? null,
+  getStripeSessionStatus: async () => ({ __kind__: "failed", failed: { error: "mock" } }),
+  isCallerAdmin: async () => false,
+  isStripeConfigured: async () => false,
+  listAllOrders: async () => [],
+  listProducts: async () => sampleProducts,
+  removeFromCart: async () => undefined,
+  saveCallerUserProfile: async () => undefined,
+  setStripeConfiguration: async () => undefined,
+  transform: async () => ({ status: BigInt(200), body: new Uint8Array(), headers: [] }),
+  updateCartItemQuantity: async () => undefined,
+  updateOrderStatus: async () => null,
+  updateProduct: async () => null,
+  updateProfile: async () => undefined,
+  updateShippingAddress: async () => null,
+};

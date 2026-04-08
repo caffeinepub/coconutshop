@@ -1,0 +1,21 @@
+{
+  "overview": "A fresh tender coconut e-commerce store with product catalog, shopping cart, user accounts, and Stripe payments.",
+  "features": [
+    "Product catalog with coconut listings and images",
+    "Shopping cart with quantity management",
+    "User accounts via Internet Identity",
+    "Secure Stripe checkout",
+    "Order history and management",
+    "Admin order management dashboard"
+  ],
+  "category": "e-commerce",
+  "tags": [
+    "e-commerce",
+    "coconut",
+    "shop",
+    "stripe",
+    "cart",
+    "orders"
+  ],
+  "last_updated": "2026-04-08T18:02:10.041Z"
+}
